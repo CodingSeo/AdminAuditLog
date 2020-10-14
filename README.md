@@ -1,6 +1,9 @@
-#Admin Audit Log Producer
+# Admin Audit Log Producer
 
-어드민 감사 이벤트 처리 Producer  
+## 설명
+어드민 감사 이벤트 처리 Producer
+
+  
 
 ## Install
 
@@ -9,7 +12,7 @@
 
 ```php
 date_default_timezone_set('PRC');
-$admin_audit_builder = new Hiworks\AdminAuditLogProducer\Builder\AdminAuditLogBuilder();
+$admin_audit_builder = new Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder();
 $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
     ->loadAdminAuditLogDTO()
     ->setMenu(MenuCodeType::APPROVAL)

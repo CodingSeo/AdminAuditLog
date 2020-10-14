@@ -2,10 +2,10 @@
 use \Mockery as m;
 use Gabia\LaravelDto\DtoService;
 
-use Hiworks\AdminAuditLogProducer\Builder\AdminAuditLogBuilder;
-use Hiworks\AdminAuditLogProducer\Config\AdminAuditLogConfig_V1;
-use Hiworks\AdminAuditLogProducer\Enums\MenuCodeType;
-use Hiworks\AdminAuditLogProducer\Enums\LevelType;
+use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder;
+use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfig_V1;
+use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
+use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
 use Hiworks\KafkaProducer\Producer;
 
 class ProducerTest extends \PHPUnit\Framework\TestCase
@@ -58,7 +58,7 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
      {
          try {
              date_default_timezone_set('PRC');
-             $admin_audit_builder = new Hiworks\AdminAuditLogProducer\Builder\AdminAuditLogBuilder();
+             $admin_audit_builder = new Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder();
              $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
                  ->loadAdminAuditLogDTO()
                  ->setMenu(MenuCodeType::APPROVAL)
@@ -88,7 +88,7 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
     {
         try {
             date_default_timezone_set('PRC');
-            $admin_audit_builder = new Hiworks\AdminAuditLogProducer\Builder\AdminAuditLogBuilder();
+            $admin_audit_builder = new Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
                 ->loadAdminAuditLogDTO()
                 ->setMenu(MenuCodeType::APPROVAL)

@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Hiworks\AdminAuditLogProducer\Config;
+namespace Hiworks\AdminAuditLogBuilder\Config;
 
-use Hiworks\AdminAuditLogProducer\Dtos\AdminAuditLogDTO;
-use Hiworks\AdminAuditLogProducer\Enums\LevelType;
-use Hiworks\AdminAuditLogProducer\Enums\MenuCodeType;
-use Hiworks\AdminAuditLogProducer\Exceptions\AdminAuditLogException;
+use Hiworks\AdminAuditLogBuilder\Dtos\AdminAuditLogDTO;
+use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
+use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
+use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
 class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
 {

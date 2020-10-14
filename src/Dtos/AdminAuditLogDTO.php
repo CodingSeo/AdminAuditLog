@@ -1,8 +1,8 @@
 <?php
-namespace Hiworks\AdminAuditLogProducer\Dtos;
+namespace Hiworks\AdminAuditLogBuilder\Dtos;
 /**
  * Class AdminAuditLogDTO
- * @package Hiworks\AdminAuditLogProducer\Dtos
+ * @package Hiworks\AdminAuditLogBuilder\Dtos
  */
 class AdminAuditLogDTO
 {

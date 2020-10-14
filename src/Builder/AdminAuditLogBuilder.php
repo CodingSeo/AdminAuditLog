@@ -1,8 +1,8 @@
 <?php
-namespace Hiworks\AdminAuditLogProducer\Builder;
+namespace Hiworks\AdminAuditLogBuilder\Builder;
 
-use Hiworks\AdminAuditLogProducer\Dtos\AdminAuditLogDTO;
-use Hiworks\AdminAuditLogProducer\Config\AdminAuditLogConfigInterface;
+use Hiworks\AdminAuditLogBuilder\Dtos\AdminAuditLogDTO;
+use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfigInterface;
 
 class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
 {

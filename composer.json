@@ -1,7 +1,7 @@
 {
-    "name": "hiworks/admin-audit-log-producer",
+    "name": "hiworks/admin-audit-log-builder",
     "license": "MIT",
-    "description": "hiworks kafka-producer",
+    "description": "hiworks admin-audit-log-builder",
     "repositories": [
         {
             "type": "composer",
@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Hiworks\\AdminAuditLogProducer\\": "src/"
+            "Hiworks\\AdminAuditLogBuilder\\": "src/"
         }
     },
     "require": {

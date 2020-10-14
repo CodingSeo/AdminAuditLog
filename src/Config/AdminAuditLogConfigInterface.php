@@ -1,9 +1,9 @@
 <?php
 
-namespace Hiworks\AdminAuditLogProducer\Config;
+namespace Hiworks\AdminAuditLogBuilder\Config;
 
-use Hiworks\AdminAuditLogProducer\Dtos\AdminAuditLogDTO;
-use Hiworks\AdminAuditLogProducer\Exceptions\AdminAuditLogException;
+use Hiworks\AdminAuditLogBuilder\Dtos\AdminAuditLogDTO;
+use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
 interface AdminAuditLogConfigInterface
 {
