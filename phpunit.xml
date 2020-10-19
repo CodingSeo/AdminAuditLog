@@ -16,8 +16,14 @@
             verbose="true">
 
          <testsuites>
-             <testsuite name="test">
-                <directory>src/tests</directory>
+             <testsuite name="builder">
+                <file>src/tests/BuilderTest.php</file>
+             </testsuite>
+             <testsuite name="send">
+                 <file>src/tests/KafkaSendTest.php</file>
+             </testsuite>
+             <testsuite name="get">
+                 <file>src/tests/KafkaGetTest.php</file>
              </testsuite>
          </testsuites>
 </phpunit>

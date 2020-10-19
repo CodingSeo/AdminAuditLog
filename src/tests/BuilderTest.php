@@ -1,7 +1,6 @@
 <?php
-use \Mockery as m;
-use Gabia\LaravelDto\DtoService;
 
+use Gabia\LaravelDto\DtoService;
 use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder;
 use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfig_V1;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
@@ -10,9 +9,8 @@ use Hiworks\KafkaProducer\Producer;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
-class ProducerTest extends \PHPUnit\Framework\TestCase
+class BuilderTest extends \PHPUnit\Framework\TestCase
 {
-    private $kafka_producer;
     private $dtoService;
 
     /**
@@ -21,17 +19,7 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
      */
     function setup()
     {
-        //DTO service to print string json data from Builder
-
         $this->dtoService = new DtoService();
-        //y
-        $producerConfig = new \Hiworks\KafkaProducer\ProducerConfig();
-        $producerConfig->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
-        $producerConfig->setRequireAck(1);
-        $this->kafka_producer = new Producer($producerConfig);
-        $logger = new \Monolog\Logger('my_logger');
-        $this->kafka_producer->setLogger($logger);
-        $this->assertNotNull($this->kafka_producer);
     }
 
     /**
@@ -88,61 +76,11 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
                  $valueArr = $this->dtoService->toArray($admin_audit_dto);
                  $valueArr = json_encode($valueArr);
                  var_dump($valueArr);
+                 $this->assertNotNull($valueArr);
          }
          catch (Exception $e){
              $this->assertEquals("",
              $e->getMessage());
          }
-     }
-
-    /**
-     * @test
-     */
-    function sendKafkaMessages()
-    {
-        try {
-            date_default_timezone_set('UTC');
-            $admin_audit_builder = new AdminAuditLogBuilder();
-            $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
-                ->setMenu(MenuCodeType::APPROVAL)
-                ->setLevel(LevelType::A)
-                ->setAccessIp('127.0.0.1')
-                ->setUserName('김**')
-                ->setOfficeNum(123)
-                ->setUserId('tets')
-                ->setUserNum(123)
-                ->setEngFullMessage('This is Full Eng Message')
-                ->setEngShortMessage('This is Short Eng Message')
-                ->setShortMessage('This is Short Kor Message')
-                ->setFullMessage('This is Full Kor Message')
-                ->build();
-            $result = $this->kafka_producer->send("tracking.admin.audit", $admin_audit_dto);
-            $this->assertNotNull($result);
-        }catch(Exception $e){
-            var_dump($e->getMessage());
-        }
-    }
-
-//    /**
-//     * @test
-//     */
-    function getKafkaMessages()
-     {
-         date_default_timezone_set('UTC');
-         $logger = new Logger('my_logger');
-         $logger->pushHandler(new StreamHandler('php://stdout'));
-         $config = \Kafka\ConsumerConfig::getInstance();
-         $config->setMetadataRefreshIntervalMs(10000);
-         $config->setMetadataBrokerList('kafka01:9092,kafka02:9092,kafka03:9092');
-         $config->setGroupId('test');
-         $config->setBrokerVersion('0.10.1.0');
-         $config->setTopics(['tracking.account.audit']);
-         $config->setOffsetReset('latest');
-         $kafka_consumer = new \Kafka\Consumer();
-         $kafka_consumer->setLogger($logger);
-         $kafka_consumer->start(function($topic, $part, $message) {
-            var_dump($topic);
-            var_dump($message);
-         });
      }
 }

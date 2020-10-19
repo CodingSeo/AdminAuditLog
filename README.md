@@ -1,4 +1,4 @@
-# Admin Audit Log Producer
+# Admin Audit Log Builder
 
 ## 설명
 어드민 감사 이벤트 처리 Json String Builder
@@ -33,3 +33,16 @@ try {
      var_dump($e->getMessage());
  }
 ```
+
+##Test Case
+>./vendor/bin/phpunit --testsuite builder
+
+admin_audit_log_builder testing (validation, json-string format)
+
+>./vendor/bin/phpunit --testsuite send
+
+send admin_dto by Kafka-producer
+
+>./vendor/bin/phpunit --testsuite get
+
+get message by Kafka-consumer
