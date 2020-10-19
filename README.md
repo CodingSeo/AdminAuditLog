@@ -34,7 +34,7 @@ try {
  }
 ```
 
-##Test Case
+## Test Case
 >./vendor/bin/phpunit --testsuite builder
 
 admin_audit_log_builder testing (validation, json-string format)
