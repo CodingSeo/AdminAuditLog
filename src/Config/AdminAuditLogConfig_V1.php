@@ -13,19 +13,19 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
     /**
      * @param AdminAuditLogDTO $admin_audit_log_dto
      */
-    function setDefault(AdminAuditLogDTO $admin_audit_log_dto)
+    public function setDefault(AdminAuditLogDTO $admin_audit_log_dto)
     {
         $admin_audit_log_dto->setVersion(1.1);
         $admin_audit_log_dto->setHost('127.0.0.1');
-        $admin_audit_log_dto->setTimestamp($this->setMicroUnixTime());
+        $admin_audit_log_dto->setTimestamp($this->getMicroUnixTime());
     }
 
     /**
      * @return string
      */
-    function setMicroUnixTime()
+    public function getMicroUnixTime()
     {
-        date_default_timezone_get()!=="" ?: date_default_timezone_set('PRC');
+        date_default_timezone_get()!=="" ?: date_default_timezone_set('UTC');
         return sprintf('%.6F', microtime(true));
     }
 
@@ -34,7 +34,7 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
      * @return bool|void
      * @throws AdminAuditLogException
      */
-    function validate(AdminAuditLogDTO $admin_audit_log_dto)
+    public function validate(AdminAuditLogDTO $admin_audit_log_dto)
     {
         $error_message = "";
         if(!LevelType::isValid($admin_audit_log_dto->getLevel())) $error_message .= ' [Not Valid Level]';
@@ -43,17 +43,44 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
         if($admin_audit_log_dto->getEngMessage() === null) $error_message .= ' [eng_message is not set]';
         if($admin_audit_log_dto->getFullMessage() === null) $error_message .= ' [full_korean is not set]';
         if($admin_audit_log_dto->getEngFullMessage() === null) $error_message .= ' [full_eng_message is not set]';
-        if($admin_audit_log_dto->getAccessIp() === null) $error_message .= ' [_access_ip is not set]';
-        if($admin_audit_log_dto->getOffice() === null) $error_message .= ' [office is not set]';
-        if($admin_audit_log_dto->getUser() === null) $error_message .= ' [user_num is not set]';
         if($admin_audit_log_dto->getTimestamp() === null) $error_message .= ' [time_stamp is not set]';
         if($admin_audit_log_dto->getUserName() === null) $error_message .= ' [user_name is not set]';
         if($admin_audit_log_dto->getUserId() === null) $error_message .= ' [user_id is not set]';
+        $ip = $admin_audit_log_dto->getAccessIp();
+        if($ip === null) $error_message .= ' [_access_ip is not set]';
+        elseif(!$this->validateIP($ip)) $error_message .= ' [_access_ip is IPv4 format]';
+
+        $office_num = $admin_audit_log_dto->getOffice();
+        if($office_num === null) $error_message .= ' [office is not set]';
+        elseif (!$this->validateNumeric($office_num)) $error_message .= ' [office is not numeric]';
+
+        $user_num = $admin_audit_log_dto->getUser();
+        if($user_num === null) $error_message .= ' [user_num is not set]';
+        elseif (!$this->validateNumeric($user_num)) $error_message .= ' [user_num is not numeric]';
+
         if($error_message !="")
         {
             throw new AdminAuditLogException($error_message);
         }
         return true;
+    }
+
+    /**
+     * @param string $ip
+     * @return mixed
+     */
+    public function validateIP($ip)
+    {
+        return filter_var($ip,FILTER_VALIDATE_IP);
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public function validateNumeric($value)
+    {
+        return is_numeric($value);
     }
 
 }

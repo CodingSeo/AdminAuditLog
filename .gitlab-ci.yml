@@ -1,0 +1,27 @@
+image: composer:latest
+
+cache:
+  paths:
+    - vendor/
+
+stages:
+  - test
+  - deploy
+
+test_package:
+  stage: test
+  script:
+    - echo "test not defined"
+  only:
+    - master
+    - /^(\d+).(\d+).(\d+)$/
+
+update_satis:
+  stage: deploy
+  script:
+    - composer global require elendev/nexus-composer-push --no-progress
+    - composer nexus-push ${CI_COMMIT_TAG} --url=https://repo.gabia.com/repository/composer-repository/ --username=${NEXUS_USER} --password=${NEXUS_PASS}
+  only:
+    - /^(\d+).(\d+).(\d+)$/
+  except:
+    - branches

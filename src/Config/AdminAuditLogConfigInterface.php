@@ -16,7 +16,7 @@ interface AdminAuditLogConfigInterface
     /**
      * @return string
      */
-    function setMicroUnixTime();
+    function getMicroUnixTime();
 
     /**
      * @param AdminAuditLogDTO $admin_audit_log_dto

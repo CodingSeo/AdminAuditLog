@@ -4,13 +4,10 @@ namespace Hiworks\AdminAuditLogBuilder\Enums;
 
 use MyCLabs\Enum\Enum;
 
-/**
- * Config파일로 이동
- */
 class MenuCodeType extends Enum
 {
 	const ENVIRONMENT = 'environment';
-    const TEAM_MAIL = 'team_mail';
+    const TEAM_MAIL = 'team-mail';
     const MAIL = 'mail';
     const SECURITY = 'security';
     const BOARD = 'board';

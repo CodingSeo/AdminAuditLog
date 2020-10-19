@@ -3,6 +3,7 @@ namespace Hiworks\AdminAuditLogBuilder\Builder;
 
 use Hiworks\AdminAuditLogBuilder\Dtos\AdminAuditLogDTO;
 use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfigInterface;
+use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
 class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
 {
@@ -46,6 +47,7 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
 
     /**
      * @return bool|AdminAuditLogDTO
+     * @throws AdminAuditLogException
      */
     public function build()
     {
@@ -122,7 +124,7 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
      * @param int $office
      * @return $this
      */
-    public function setOffice($office)
+    public function setOfficeNum($office)
     {
         $this->admin_audit_log_dto->setOffice($office);
         return $this;
@@ -132,7 +134,7 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
      * @param int $user
      * @return $this
      */
-    public function setUserNumber($user)
+    public function setUserNum($user)
     {
         $this->admin_audit_log_dto->setUser($user);
         return $this;
