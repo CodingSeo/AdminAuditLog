@@ -19,7 +19,7 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
 
     public function __construct()
     {
-
+        $this->admin_audit_log_dto = new AdminAuditLogDTO();
     }
 
     /**
@@ -32,25 +32,14 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
         return $this;
     }
 
-
-    /**
-     * @return $this
-     */
-    public function loadAdminAuditLogDTO()
-    {
-        $this->admin_audit_log_dto = new AdminAuditLogDTO();
-        if($this->admin_default_config !== null){
-            $this->admin_default_config->setDefault($this->admin_audit_log_dto);
-        }
-        return $this;
-    }
-
     /**
      * @return bool|AdminAuditLogDTO
      * @throws AdminAuditLogException
      */
     public function build()
     {
+        if($this->admin_default_config == null)throw new AdminAuditLogException('Admin Audit Log Builder config is not set');
+        $this->admin_default_config->setDefault($this->admin_audit_log_dto);
         if($this->admin_default_config->validate($this->admin_audit_log_dto))
         {
             return $this->admin_audit_log_dto;
@@ -102,7 +91,7 @@ class AdminAuditLogBuilder implements AdminAuditLogBuilderInterface
      * @param string $eng_message
      * @return $this
      */
-    public function setEngMessage($eng_message)
+    public function setEngShortMessage($eng_message)
     {
         $this->admin_audit_log_dto->setEngMessage($eng_message);
         return $this;

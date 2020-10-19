@@ -26,17 +26,11 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
         $this->dtoService = new DtoService();
         //y
         $producerConfig = new \Hiworks\KafkaProducer\ProducerConfig();
-        //n probably better to pull out to config file
         $producerConfig->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
-        //y
         $producerConfig->setRequireAck(1);
-        //y
         $this->kafka_producer = new Producer($producerConfig);
-        //maybe..?
         $logger = new \Monolog\Logger('my_logger');
-        //y
         $this->kafka_producer->setLogger($logger);
-        //y
         $this->assertNotNull($this->kafka_producer);
     }
 
@@ -52,7 +46,6 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
             date_default_timezone_set('PRC');
             $admin_audit_builder = new AdminAuditLogBuilder();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
-                ->loadAdminAuditLogDTO()
                 ->setMenu(MenuCodeType::APPROVAL)
                 ->setAccessIp('1.12.1111')
                 ->setUserName('test')
@@ -80,7 +73,6 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
              date_default_timezone_set('UTC');
              $admin_audit_builder = new AdminAuditLogBuilder();
              $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
-                 ->loadAdminAuditLogDTO()
                  ->setMenu(MenuCodeType::APPROVAL)
                  ->setLevel(LevelType::A)
                  ->setAccessIp('127.0.0.1')
@@ -89,7 +81,7 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
                  ->setUserId('tets')
                  ->setUserNum(123)
                  ->setEngFullMessage('This is Full Eng Message')
-                 ->setEngMessage('This is Short Eng Message')
+                 ->setEngShortMessage('This is Short Eng Message')
                  ->setShortMessage('This is Short Kor Message')
                  ->setFullMessage('This is Full Kor Message')
                  ->build();
@@ -112,7 +104,6 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
             date_default_timezone_set('UTC');
             $admin_audit_builder = new AdminAuditLogBuilder();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
-                ->loadAdminAuditLogDTO()
                 ->setMenu(MenuCodeType::APPROVAL)
                 ->setLevel(LevelType::A)
                 ->setAccessIp('127.0.0.1')
@@ -121,7 +112,7 @@ class ProducerTest extends \PHPUnit\Framework\TestCase
                 ->setUserId('tets')
                 ->setUserNum(123)
                 ->setEngFullMessage('This is Full Eng Message')
-                ->setEngMessage('This is Short Eng Message')
+                ->setEngShortMessage('This is Short Eng Message')
                 ->setShortMessage('This is Short Kor Message')
                 ->setFullMessage('This is Full Kor Message')
                 ->build();

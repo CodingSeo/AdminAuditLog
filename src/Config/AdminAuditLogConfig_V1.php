@@ -10,13 +10,22 @@ use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
 class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
 {
+    private $version;
+    private $host;
+
+    public function __construct()
+    {
+        $this->version = 1.1;
+        $this->host = '127.0.0.1';
+    }
+
     /**
      * @param AdminAuditLogDTO $admin_audit_log_dto
      */
     public function setDefault(AdminAuditLogDTO $admin_audit_log_dto)
     {
-        $admin_audit_log_dto->setVersion(1.1);
-        $admin_audit_log_dto->setHost('127.0.0.1');
+        $admin_audit_log_dto->setVersion($this->version);
+        $admin_audit_log_dto->setHost($this->host);
         $admin_audit_log_dto->setTimestamp($this->getMicroUnixTime());
     }
 

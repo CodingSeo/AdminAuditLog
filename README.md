@@ -3,9 +3,8 @@
 ## 설명
 어드민 감사 이벤트 처리 Json String Builder
 
-
 ## Install
-composer install 
+
 
 ## Usage
 > **Note:** This version of this SDK for PHP requires **PHP 5.6** or greater.

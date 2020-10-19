@@ -13,10 +13,6 @@ interface AdminAuditLogBuilderInterface
      */
     public function setConfig(AdminAuditLogConfigInterface $adminAuditLogConfig);
     /**
-     * @return $this|AdminAuditLogBuilder
-     */
-    public function loadAdminAuditLogDTO();
-    /**
      * @return bool|AdminAuditLogDTO
      */
     public function build();
