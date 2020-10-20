@@ -30,6 +30,7 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
     }
 
     /**
+     * Setting TimeStamp according to UTC and return to default;
      * @return string
      */
     public function getMicroUnixTime()
