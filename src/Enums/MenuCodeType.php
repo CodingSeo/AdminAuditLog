@@ -12,9 +12,10 @@ class MenuCodeType extends Enum
     const SECURITY = 'security';
     const BOARD = 'board';
     const MESSAGING = 'messaging';
-    const BOOKING = 'boooking';
+    const BOOKING = 'booking';
     const INSA = 'insa';
     const APPROVAL = 'approval';
     const BILL = 'bill';
     const ARCHIVE = 'archive';
+    const API = 'api';
 }
