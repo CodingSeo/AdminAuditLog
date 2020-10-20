@@ -20,20 +20,23 @@ hiworks/kafka-producer : 1.0.4
 
 ```php
 try {
-     $admin_audit_builder = new AdminAuditLogBuilder();
-     $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig())
-         ->setMenu(MenuCodeType::APPROVAL)
-         ->setLevel(LevelType::A)
-         ->setAccessIp('127.0.0.1')
-         ->setUserName('김**')
-         ->setOfficeNum(123)
-         ->setUserId('test_user')
-         ->setUserNum(123)
-         ->setEngFullMessage('This is Full Eng Message')
-         ->setEngMessage('This is Short Eng Message')
-         ->setShortMessage('This is Short Kor Message')
-         ->setFullMessage('This is Full Kor Message')
-         ->build();
+     $admin_audit_log = AdminAuditLog::builder()
+                      //default 1.1, UNIX_MICRO_TIMESTAMP
+                      //->setVersion()
+                      //->setTimestamp()
+                      ->setMenu(MenuCodeType::APPROVAL)
+                      ->setLevel(LevelType::A)
+                      ->setAccessIp('127.0.0.1')
+                      ->setHost('127.0.0.1')
+                      ->setUserName('김**')
+                      ->setOfficeNum(123)
+                      ->setUserId('test_user')
+                      ->setUserNum(123)
+                      ->setEngFullMessage('This is Full Eng Message')
+                      ->setEngMessage('This is Short Eng Message')
+                      ->setShortMessage('This is Short Kor Message')
+                      ->setFullMessage('This is Full Kor Message')
+                      ->build();
  }
  catch (Exception $e){
      //Arguments that's not filled in the builder will be stacked here.
