@@ -15,7 +15,6 @@
 
 ```php
 try {
-     date_default_timezone_set('UTC');
      $admin_audit_builder = new AdminAuditLogBuilder();
      $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig())
          ->loadAdminAuditLogDTO()
@@ -37,8 +36,10 @@ try {
      var_dump($e->getMessage());
  }
 ```
+## 
 
-## Test Case
+
+## Test Cases
 >./vendor/bin/phpunit --testsuite builder
 
 admin_audit_log_builder testing (validation, json-string format)
