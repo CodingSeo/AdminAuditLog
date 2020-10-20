@@ -31,7 +31,6 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     function check_validation()
     {
         try {
-            date_default_timezone_set('PRC');
             $admin_audit_builder = new AdminAuditLogBuilder();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
                 ->setMenu(MenuCodeType::APPROVAL)
@@ -58,7 +57,6 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      function check_and_var_dump_Builder_JsonData()
      {
          try {
-             date_default_timezone_set('UTC');
              $admin_audit_builder = new AdminAuditLogBuilder();
              $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
                  ->setMenu(MenuCodeType::APPROVAL)

@@ -34,8 +34,11 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
      */
     public function getMicroUnixTime()
     {
-        date_default_timezone_get()!=="" ?: date_default_timezone_set('UTC');
-        return sprintf('%.6F', microtime(true));
+        $prev_timezone = date_default_timezone_get()?date_default_timezone_get():"UTC";
+        date_default_timezone_set('UTC');
+        $timestamp = sprintf('%.6F', microtime(true));
+        date_default_timezone_set($prev_timezone);
+        return $timestamp;
     }
 
     /**
@@ -55,6 +58,7 @@ class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
         if($admin_audit_log_dto->getTimestamp() === null) $error_message .= ' [time_stamp is not set]';
         if($admin_audit_log_dto->getUserName() === null) $error_message .= ' [user_name is not set]';
         if($admin_audit_log_dto->getUserId() === null) $error_message .= ' [user_id is not set]';
+
         $ip = $admin_audit_log_dto->getAccessIp();
         if($ip === null) $error_message .= ' [_access_ip is not set]';
         elseif(!$this->validateIP($ip)) $error_message .= ' [_access_ip is IPv4 format]';

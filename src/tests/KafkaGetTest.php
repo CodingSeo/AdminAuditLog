@@ -10,7 +10,6 @@ class KafkaGetTest extends \PHPUnit\Framework\TestCase
      */
     function getKafkaMessages()
     {
-        date_default_timezone_set('UTC');
         $logger = new Logger('my_logger');
         $logger->pushHandler(new StreamHandler('php://stdout'));
 
@@ -26,6 +25,7 @@ class KafkaGetTest extends \PHPUnit\Framework\TestCase
         //Debugging
         $kafka_consumer->setLogger($logger);
         $kafka_consumer->start(function($topic, $part, $message) {
+            var_dump($topic);
             var_dump($message);
         });
     }

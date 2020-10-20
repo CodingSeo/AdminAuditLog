@@ -5,6 +5,7 @@ use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfig_V1;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
 use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
 use Hiworks\KafkaProducer\Producer;
+use Hiworks\KafkaProducer\ProducerConfig;
 
 class KafkaSendTest extends \PHPUnit\Framework\TestCase
 {
@@ -14,7 +15,7 @@ class KafkaSendTest extends \PHPUnit\Framework\TestCase
      */
     function sendKafkaMessages()
     {
-        $producerConfig = new \Hiworks\KafkaProducer\ProducerConfig();
+        $producerConfig = new ProducerConfig();
         $producerConfig->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
         $producerConfig->setRequireAck(1);
         $kafka_producer = new Producer($producerConfig);
@@ -22,7 +23,6 @@ class KafkaSendTest extends \PHPUnit\Framework\TestCase
         $logger = new \Monolog\Logger('my_logger');
         $kafka_producer->setLogger($logger);
         try {
-            date_default_timezone_set('UTC');
             $admin_audit_builder = new AdminAuditLogBuilder();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
                 ->setMenu(MenuCodeType::APPROVAL)
