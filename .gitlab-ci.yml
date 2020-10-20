@@ -13,7 +13,7 @@ test_package:
   script:
     - echo "test not defined"
   only:
-    - main
+    - master
     - /^(\d+).(\d+).(\d+)$/
 
 update_satis:

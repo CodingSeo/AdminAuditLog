@@ -38,7 +38,9 @@ class AdminAuditLogConfig implements AdminAuditLogConfigInterface
         $prev_timezone = date_default_timezone_get()?date_default_timezone_get():"UTC";
         date_default_timezone_set('UTC');
         $timestamp = sprintf('%.6F', microtime(true));
-        date_default_timezone_set($prev_timezone);
+        if($prev_timezone !=="UTC"){
+            date_default_timezone_set($prev_timezone);
+        }
         return $timestamp;
     }
 
@@ -52,6 +54,7 @@ class AdminAuditLogConfig implements AdminAuditLogConfigInterface
         $error_message = "";
         if(!LevelType::isValid($admin_audit_log_dto->getLevel())) $error_message .= ' [Not Valid Level]';
         if(!MenuCodeType::isValid($admin_audit_log_dto->getMenu())) $error_message .= ' [Not Valid Menu]';
+
         if($admin_audit_log_dto->getShortMessage() === null) $error_message .= ' [short_korean is not set]';
         if($admin_audit_log_dto->getEngMessage() === null) $error_message .= ' [eng_message is not set]';
         if($admin_audit_log_dto->getFullMessage() === null) $error_message .= ' [full_korean is not set]';

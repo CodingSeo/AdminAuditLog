@@ -9,6 +9,11 @@
         "hiworks/admin-audit-log-builder": "^1.0"
 }
 ```
+## Requirement
+
+myclabs/php-enum : 1.6.6
+
+hiworks/kafka-producer : 1.0.4
 
 ## Usage
 > **Note:** This version of this SDK for PHP requires **PHP 5.6** or greater.
@@ -17,7 +22,6 @@
 try {
      $admin_audit_builder = new AdminAuditLogBuilder();
      $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig())
-         ->loadAdminAuditLogDTO()
          ->setMenu(MenuCodeType::APPROVAL)
          ->setLevel(LevelType::A)
          ->setAccessIp('127.0.0.1')
