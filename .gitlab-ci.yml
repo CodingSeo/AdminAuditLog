@@ -12,6 +12,7 @@ test_package:
   stage: test
   script:
     - echo "test not defined"
+    - echo ${TEST_MESSAGE}
   only:
     - main
     - /^(\d+).(\d+).(\d+)$/
