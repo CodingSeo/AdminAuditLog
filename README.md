@@ -4,7 +4,11 @@
 어드민 감사 이벤트 처리 Json String Builder
 
 ## Install
-
+```composer log
+"require": {
+        "hiworks/admin-audit-log-builder": "^1.0"
+}
+```
 
 ## Usage
 > **Note:** This version of this SDK for PHP requires **PHP 5.6** or greater.
@@ -13,7 +17,7 @@
 try {
      date_default_timezone_set('UTC');
      $admin_audit_builder = new AdminAuditLogBuilder();
-     $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig_V1())
+     $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig())
          ->loadAdminAuditLogDTO()
          ->setMenu(MenuCodeType::APPROVAL)
          ->setLevel(LevelType::A)

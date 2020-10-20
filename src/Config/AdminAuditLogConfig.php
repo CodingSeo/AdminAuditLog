@@ -8,7 +8,7 @@ use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
 use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
-class AdminAuditLogConfig_V1 implements AdminAuditLogConfigInterface
+class AdminAuditLogConfig implements AdminAuditLogConfigInterface
 {
     private $version;
     private $host;
