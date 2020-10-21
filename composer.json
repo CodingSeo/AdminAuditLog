@@ -1,7 +1,7 @@
 {
-    "name": "hiworks/admin-audit-log",
+    "name": "hiworks/admin-audit-log-builder",
     "license": "MIT",
-    "description": "hiworks admin-audit-log",
+    "description": "hiworks admin-audit-log-builder",
     "repositories": [
         {
             "type": "composer",
@@ -15,7 +15,7 @@
     },
     "require": {
         "myclabs/php-enum": "1.6.6",
-        "hiworks/kafka-producer": "1.0.4",
+        "hiworks/kafka-producer": "1.0.5",
         "monolog/monolog": "^1.0"
     },
     "require-dev": {

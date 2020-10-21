@@ -12,16 +12,6 @@ use Monolog\Logger;
 
 class test extends \PHPUnit\Framework\TestCase
 {
-    private $dtoService;
-
-    /**
-     * Kafka Producer Setup
-     * @throws Exception
-     */
-    function setup()
-    {
-        $this->dtoService = new DtoService();
-    }
 
     /**
      * Validation Wrong Builder
@@ -34,8 +24,8 @@ class test extends \PHPUnit\Framework\TestCase
             $admin_audit_log = AdminAuditLog::builder('v2')
                 ->build();
         }catch(Exception $e){
-            $this->assertEquals('AdminAuditLog Exception Occurred : Please Select Correct Version of Builder',
-                $e->getMessage());
+            $this->assertEquals("Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException :  Please Select Correct Version of Builder",
+                get_class($e) . " : " . $e->getMessage());
         }
     }
 
@@ -61,8 +51,8 @@ class test extends \PHPUnit\Framework\TestCase
                 ->setFullMessage('This is Full Kor Message')
                 ->build();
         }catch(Exception $e){
-            $this->assertEquals('AdminAuditLog Exception Occurred : [Not Valid Level] [user_name is not set] [user_num is not set]',
-            $e->getMessage());
+            $this->assertEquals("Hiworks\AdminAuditLog\Exceptions\AdminAuditLogBuilderException :  [Not Valid Level] [user_name is not set] [user_num is not set]",
+                get_class($e) . " : " . $e->getMessage());
         }
     }
 
@@ -90,7 +80,7 @@ class test extends \PHPUnit\Framework\TestCase
              var_dump($admin_audit_log);
          }
          catch (Exception $e){
-
+             var_dump(get_class($e) . " : " . $e->getMessage());
          }
      }
 
@@ -101,7 +91,6 @@ class test extends \PHPUnit\Framework\TestCase
      */
     function sendKafkaMessage()
     {
-        $logger = new Logger('my_logger');
         try {
             $admin_audit_log = AdminAuditLog::builder('v1')
                 ->setMenu(MenuCodeType::APPROVAL)
@@ -116,12 +105,47 @@ class test extends \PHPUnit\Framework\TestCase
                 ->setShortMessage('This is Short Kor Message')
                 ->setFullMessage('This is Full Kor Message')
                 ->build();
-            $adminAuditLogKafkaProducer = new AdminAuditLogKafkaProducer();
-            //$adminAuditLogKafkaProducer->setLogger($logger);
-            $adminAuditLogKafkaProducer->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
-            $adminAuditLogKafkaProducer->sendMessage('tracking.admin.audit',$admin_audit_log);
+            $admin_audit_log_producer = new AdminAuditLogKafkaProducer();
+            //$logger = new Logger('my_logger');
+            //$admin_audit_log_producer->setLogger($logger);
+            //$kafkaConfig = $admin_audit_log_producer->getKafkaConfig();
+            $admin_audit_log_producer->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
+            $admin_audit_log_producer->sendMessage('tracking.admin.audit',$admin_audit_log);
         }catch(Exception $e){
-            var_dump($e->getMessage());
+            var_dump(get_class($e) . " : " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Test Kafka Sending
+     * @test
+     * @throws Exception
+     */
+    function sendKafkaMessage_with_options()
+    {
+        try {
+            $admin_audit_log = AdminAuditLog::builder('v1')
+                ->setMenu(MenuCodeType::APPROVAL)
+                ->setLevel(LevelType::A)
+                ->setAccessIp('127.0.0.1')
+                ->setUserName('김**')
+                ->setOfficeNum(123)
+                ->setUserId('test_user')
+                ->setUserNum(123)
+                ->setEngFullMessage('This is Full Eng Message')
+                ->setEngMessage('This is Short Eng Message')
+                ->setShortMessage('This is Short Kor Message')
+                ->setFullMessage('This is Full Kor Message')
+                ->build();
+            $admin_audit_log_producer = new AdminAuditLogKafkaProducer();
+            $logger = new Logger('my_logger');
+            $admin_audit_log_producer->setLogger($logger);
+            $admin_audit_log_producer->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
+            $admin_audit_log_producer->sendMessage('tracking.admin.audit',$admin_audit_log);
+            $kafka_config = $admin_audit_log_producer->getKafkaConfig();
+            $kafka_config->setRequireAck(1);
+        }catch(Exception $e){
+            var_dump(get_class($e) . " : " . $e->getMessage());
         }
     }
 
@@ -130,25 +154,24 @@ class test extends \PHPUnit\Framework\TestCase
      * Not Working Well...
      * @test
      */
-    function getKafkaMessages()
-    {
-        $logger = new Logger('my_logger');
-        $config = \Kafka\ConsumerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList('kafka01:9092,kafka02:9092,kafka03:9092');
-        $config->setGroupId('test');
-        $config->setBrokerVersion('0.10.1.0');
-        $config->setTopics(['tracking.admin.audit']);
-        //$config->setOffsetReset('latest');
-        $config->setOffsetReset('earliest');
-
-        $kafka_consumer = new \Kafka\Consumer();
-        //Debugging
-        $kafka_consumer->setLogger($logger);
-        $kafka_consumer->start(function($topic, $part, $message) {
-            var_dump($topic);
-            var_dump($message);
-        });
-    }
+//    function getKafkaMessages()
+//    {
+//        $logger = new Logger('my_logger');
+//        $config = \Kafka\ConsumerConfig::getInstance();
+//        $config->setMetadataRefreshIntervalMs(10000);
+//        $config->setMetadataBrokerList('kafka01:9092,kafka02:9092,kafka03:9092');
+//        $config->setGroupId('test');
+//        $config->setBrokerVersion('0.10.1.0');
+//        $config->setTopics(['tracking.admin.audit']);
+//        //$config->setOffsetReset('latest');
+//        $config->setOffsetReset('earliest');
+//        $kafka_consumer = new \Kafka\Consumer();
+//        //Debugging
+//        $kafka_consumer->setLogger($logger);
+//        $kafka_consumer->start(function($topic, $part, $message) {
+//            var_dump($topic);
+//            var_dump($message);
+//        });
+//    }
 
 }
