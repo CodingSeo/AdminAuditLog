@@ -1,6 +1,6 @@
 <?php
 
-use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder;
+use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilderV1;
 use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfig;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
 use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
@@ -23,7 +23,7 @@ class KafkaSendTest extends \PHPUnit\Framework\TestCase
         $logger = new \Monolog\Logger('my_logger');
         $kafka_producer->setLogger($logger);
         try {
-            $admin_audit_builder = new AdminAuditLogBuilder();
+            $admin_audit_builder = new AdminAuditLogBuilderV1();
             $admin_audit_dto = $admin_audit_builder->setConfig(new AdminAuditLogConfig())
                 ->setMenu(MenuCodeType::APPROVAL)
                 ->setLevel(LevelType::A)

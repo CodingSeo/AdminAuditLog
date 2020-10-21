@@ -21,9 +21,10 @@ hiworks/kafka-producer : 1.0.4
 ```php
 try {
      $admin_audit_log = AdminAuditLog::builder()
-                      //default 1.1, UNIX_MICRO_TIMESTAMP
-                      //->setVersion()
-                      //->setTimestamp()
+                      //Default Setting
+                      //->setVersion('1,1')
+                      //timezone_identifier parameter
+                      //->setTimestamp("UTC")
                       ->setMenu(MenuCodeType::APPROVAL)
                       ->setLevel(LevelType::A)
                       ->setAccessIp('127.0.0.1')

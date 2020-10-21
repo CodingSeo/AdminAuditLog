@@ -7,7 +7,7 @@ use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
 use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
 
-class AdminAuditLogBuilder
+class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 {
     /**
      * @var string
@@ -15,7 +15,7 @@ class AdminAuditLogBuilder
     private $error_message = "";
 
     /**
-     * @var int
+     * @var string
      */
     private $version;
 
@@ -96,7 +96,7 @@ class AdminAuditLogBuilder
      */
     public function build()
     {
-        $this->setErrorMessage();
+        $this->validateProperties();
         if(!$this->error_message == "")
         {
             throw new AdminAuditLogException($this->error_message);
@@ -105,9 +105,32 @@ class AdminAuditLogBuilder
     }
 
     /**
+     * @param AdminAuditLog $adminAuditLog
+     * @return AdminAuditLog
+     */
+    public function setAdminAuditLog($adminAuditLog)
+    {
+        $adminAuditLog->setUserId($this->getUserId());
+        $adminAuditLog->setTimestamp($this->getTimestamp());
+        $adminAuditLog->setUser($this->getUser());
+        $adminAuditLog->setUserName($this->getUserName());
+        $adminAuditLog->setOffice($this->getOffice());
+        $adminAuditLog->setMenu($this->getMenu());
+        $adminAuditLog->setLevel($this->getLevel());
+        $adminAuditLog->setVersion($this->getVersion());
+        $adminAuditLog->setHost($this->getHost());
+        $adminAuditLog->setEngMessage($this->getEngMessage());
+        $adminAuditLog->setEngFullMessage($this->getEngFullMessage());
+        $adminAuditLog->setShortMessage($this->getShortMessage());
+        $adminAuditLog->setFullMessage($this->getFullMessage());
+        $adminAuditLog->setAccessIp($this->getAccessIp());
+        return $adminAuditLog;
+    }
+
+    /**
      * Setting ErrorMessage (Validation)
      */
-    public function setErrorMessage()
+    public function validateProperties()
     {
         if(!LevelType::isValid($this->getLevel())) $this->error_message .= ' [Not Valid Level]';
         if(!MenuCodeType::isValid($this->getMenu())) $this->error_message .= ' [Not Valid Menu]';
@@ -124,11 +147,10 @@ class AdminAuditLogBuilder
 
         $ip = $this->getAccessIp();
         if($ip === null) $this->error_message .= ' [_access_ip is not set]';
-        elseif(!$this->validateIP($ip)) $this->error_message .= ' [_access_ip is not IPv4 format]';
-
+        elseif(!$this->validateIPv4($ip)) $this->error_message .= ' [_access_ip is not IPv4 format]';
         $host = $this->getHost();
         if($host === null) $this->error_message .= ' [host is not set]';
-        elseif(!$this->validateIP($host)) $this->error_message .= ' [host is not IPv4 format]';
+        elseif(!$this->validateIPv4($host)) $this->error_message .= ' [host is not IPv4 format]';
     }
 
     /**
@@ -157,7 +179,7 @@ class AdminAuditLogBuilder
      * @param string $ip
      * @return mixed
      */
-    public function validateIP($ip)
+    public function validateIPv4($ip)
     {
         return filter_var($ip,FILTER_VALIDATE_IP);
     }
@@ -207,11 +229,17 @@ class AdminAuditLogBuilder
     }
 
     /**
-     * @param string $timestamp
-     * @return AdminAuditLogBuilder
+     * @param string $timezone_identifier
+     * @return AdminAuditLogBuilderV1
      */
-    public function setTimestamp($timestamp)
+    public function setTimestamp($timezone_identifier)
     {
+        $prev_timezone = date_default_timezone_get()?date_default_timezone_get():"UTC";
+        date_default_timezone_set($timezone_identifier);
+        $timestamp = sprintf('%.6F', microtime(true));
+        if($prev_timezone !=="UTC"){
+            date_default_timezone_set($prev_timezone);
+        }
         $this->timestamp = $timestamp;
         return $this;
     }
@@ -243,7 +271,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $short_message
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setShortMessage($short_message)
     {
@@ -261,7 +289,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $full_message
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setFullMessage($full_message)
     {
@@ -279,7 +307,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $eng_message
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setEngMessage($eng_message)
     {
@@ -297,7 +325,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $eng_full_message
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setEngFullMessage($eng_full_message)
     {
@@ -315,7 +343,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param int $office
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setOfficeNum($office)
     {
@@ -350,7 +378,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $user_id
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setUserId($user_id)
     {
@@ -368,7 +396,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $user_name
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setUserName($user_name)
     {
@@ -386,7 +414,7 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $menu
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setMenu($menu)
     {
@@ -404,12 +432,11 @@ class AdminAuditLogBuilder
 
     /**
      * @param string $access_ip
-     * @return AdminAuditLogBuilder
+     * @return AdminAuditLogBuilderV1
      */
     public function setAccessIp($access_ip)
     {
         $this->access_ip = $access_ip;
         return $this;
     }
-
 }

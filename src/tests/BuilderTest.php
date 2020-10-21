@@ -1,7 +1,7 @@
 <?php
 
 use Gabia\LaravelDto\DtoService;
-use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder;
+use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilderV1;
 use Hiworks\AdminAuditLogBuilder\Config\AdminAuditLogConfig;
 use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
 use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
@@ -32,10 +32,11 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     function check_validation()
     {
         try {
-            $admin_audit_log = AdminAuditLog::builder()
-                //default 1.1, UNIX_MICRO_TIMESTAMP
-                //->setVersion()
-                //->setTimestamp()
+            $admin_audit_log = AdminAuditLog::builder('v1')
+                //Default Setting
+                //->setVersion('1.1')
+                //timezone_identifier parameter
+                //->setTimestamp("UTC")
                 ->setMenu(MenuCodeType::APPROVAL)
                 ->setLevel(1)
                 ->setAccessIp('127.0.0.1')
@@ -57,16 +58,17 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Builder Result Test
-     * Testing AdminAuditLogBuilder returns json_string using DTOservice
+     * Testing AdminAuditLogBuilderV1 returns json_string using DTOservice
      * @test
      */
      function check_and_var_dump_Builder()
      {
          try {
-             $admin_audit_log = AdminAuditLog::builder()
-                 //default 1.1, UNIX_MICRO_TIMESTAMP
-                 //->setVersion()
-                 //->setTimestamp()
+             $admin_audit_log = AdminAuditLog::builder('v1')
+                 //Default Setting
+                 //->setVersion('1.1')
+                 //timezone_identifier parameter
+                 //->setTimestamp("UTC")
                  ->setMenu(MenuCodeType::APPROVAL)
                  ->setLevel(LevelType::A)
                  ->setAccessIp('127.0.0.1')
