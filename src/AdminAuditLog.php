@@ -93,6 +93,10 @@ class AdminAuditLog
         }
     }
 
+    /**
+     * AdminAuditLog constructor.
+     * @param AdminAuditLogBuilderInterface $adminAuditLogBuilder
+     */
     public function __construct(AdminAuditLogBuilderInterface $adminAuditLogBuilder)
     {
         $adminAuditLogBuilder->setAdminAuditLog($this);

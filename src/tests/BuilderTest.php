@@ -24,6 +24,22 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Validation Wrong Builder
+     * The Exception Message will tell to choose write version of builder
+     * @test
+     */
+    function check_builder()
+    {
+        try {
+            $admin_audit_log = AdminAuditLog::builder('v2')
+                ->build();
+        }catch(Exception $e){
+            $this->assertEquals('AdminAuditLog Exception Occurred : Please Select Correct Version of Builder',
+                $e->getMessage());
+        }
+    }
+
+    /**
      * Validation Testing
      * The Exception Message will tell you what's the missing parts
      * IP should be IP4 format and office_num and user_num should be numeric
