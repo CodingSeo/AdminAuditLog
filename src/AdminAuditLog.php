@@ -1,12 +1,16 @@
 <?php
-namespace Hiworks\AdminAuditLogBuilder;
+namespace Hiworks\AdminAuditLog;
 
-use Hiworks\AdminAuditLogBuilder\Builder\AdminAuditLogBuilder;
+use Hiworks\AdminAuditLog\Builder\AdminAuditLogBuilderInterface;
+use Hiworks\AdminAuditLog\Builder\AdminAuditLogBuilderV1;
+use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException;
 
 class AdminAuditLog
 {
+
+
     /**
-     * @var int
+     * @var string
      */
     private $version;
 
@@ -76,36 +80,34 @@ class AdminAuditLog
     private $_access_ip;
 
     /**
-     * @return AdminAuditLogBuilder
+     * Builder Version will Be Upgraded when more Fields needed
+     * @param string $builder_version
+     * @return AdminAuditLogBuilderV1
+     * @throws AdminAuditLogException
      */
-    public static function builder()
+    public static function builder($builder_version)
     {
-        return new AdminAuditLogBuilder();
+        switch ($builder_version)
+        {
+            case 'v1':
+                return new AdminAuditLogBuilderV1();
+            default:
+                throw new AdminAuditLogException(' Please Select Correct Version of Builder');
+        }
     }
 
     /**
-     * @param AdminAuditLogBuilder $adminAuditLogBuilder
+     * AdminAuditLog constructor.
+     * @param AdminAuditLogBuilderInterface $adminAuditLogBuilder
      */
-    public function __construct(AdminAuditLogBuilder $adminAuditLogBuilder)
+    public function __construct(AdminAuditLogBuilderInterface $adminAuditLogBuilder)
     {
-        $this->setUserId($adminAuditLogBuilder->getUserId());
-        $this->setTimestamp($adminAuditLogBuilder->getTimestamp());
-        $this->setUser($adminAuditLogBuilder->getUser());
-        $this->setUserName($adminAuditLogBuilder->getUserName());
-        $this->setOffice($adminAuditLogBuilder->getOffice());
-        $this->setMenu($adminAuditLogBuilder->getMenu());
-        $this->setLevel($adminAuditLogBuilder->getLevel());
-        $this->setVersion($adminAuditLogBuilder->getVersion());
-        $this->setHost($adminAuditLogBuilder->getHost());
-        $this->setEngMessage($adminAuditLogBuilder->getEngMessage());
-        $this->setEngFullMessage($adminAuditLogBuilder->getEngFullMessage());
-        $this->setShortMessage($adminAuditLogBuilder->getShortMessage());
-        $this->setFullMessage($adminAuditLogBuilder->getFullMessage());
-        $this->setAccessIp($adminAuditLogBuilder->getAccessIp());
+        $adminAuditLogBuilder->setAdminAuditLog($this);
     }
 
+
     /**
-     * @param int $version
+     * @param string $version
      */
     public function setVersion($version)
     {

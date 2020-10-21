@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit    backupGlobals="false"
-            backupStaticAttributes="false"
-            bootstrap="vendor/autoload.php"
+<phpunit    bootstrap="vendor/autoload.php"
             colors="true"
-            convertErrorsToExceptions="true"
-            convertNoticesToExceptions="true"
-            convertWarningsToExceptions="true"
-            processIsolation="false"
             stopOnError="false"
             stopOnFailure="false"
             verbose="true">
 
          <testsuites>
-             <testsuite name="builder">
-                <file>src/tests/BuilderTest.php</file>
-             </testsuite>
-             <testsuite name="send">
-                 <file>src/tests/KafkaSendTest.php</file>
-             </testsuite>
-             <testsuite name="get">
-                 <file>src/tests/KafkaGetTest.php</file>
+             <testsuite name="test">
+                <file>src/tests/test.php</file>
              </testsuite>
          </testsuites>
 </phpunit>
