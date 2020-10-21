@@ -15,7 +15,7 @@
     },
     "require": {
         "myclabs/php-enum": "1.6.6",
-        "hiworks/kafka-producer": "1.0.5",
+        "hiworks/kafka-producer": "^1.0",
         "monolog/monolog": "^1.0"
     },
     "require-dev": {

@@ -1,22 +1,29 @@
 # Admin Audit Log Builder
 
+
+> **Note:** This version of this SDK for PHP requires **PHP 5.6** or greater.
+
 ## 설명
 어드민 감사 이벤트 처리 Json String Builder
 
 ## Install
+
 ```composer log
 "require": {
         "hiworks/admin-audit-log-builder": "^1.0"
 }
 ```
+
 ## Requirement
 
-myclabs/php-enum : 1.6.6
-
-hiworks/kafka-producer : 1.0.4
+```composer log
+"require": {
+        "myclabs/php-enum" : "1.6.6",
+        "hiworks/kafka-producer" : "^1.0"
+}
+```
 
 ## Usage
-> **Note:** This version of this SDK for PHP requires **PHP 5.6** or greater.
 
 ```php
 try {
@@ -49,10 +56,12 @@ try {
     var_dump(get_class($e) . " : " . $e->getMessage());
 }
 ```
-## 
+
+## Note
+
+
 
 
 ## Test Cases
->./vendor/bin/phpunit --testsuite builder
+>./vendor/bin/phpunit --testsuite test
 
-admin_audit_log_builder test
