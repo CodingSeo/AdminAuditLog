@@ -20,20 +20,24 @@ hiworks/kafka-producer : 1.0.4
 
 ```php
 try {
-     $admin_audit_log = AdminAuditLog::builder()
-                   ->setMenu(MenuCodeType::APPROVAL)
-                   ->setLevel(LevelType::A)
-                   ->setAccessIp('127.0.0.1')
-                   ->setHost('127.0.0.1')
-                   ->setUserName('김**')
-                   ->setOfficeNum(123)
-                   ->setUserId('test_user')
-                   ->setUserNum(123)
-                   ->setEngFullMessage('This is Full Eng Message')
-                   ->setEngMessage('This is Short Eng Message')
-                   ->setShortMessage('This is Short Kor Message')
-                   ->setFullMessage('This is Full Kor Message')
-                   ->build();
+     $admin_audit_log = AdminAuditLog::builder('v1')
+                     ->setMenu(MenuCodeType::APPROVAL)
+                     ->setLevel(LevelType::A)
+                     ->setAccessIp('127.0.0.1')
+                     ->setUserName('김**')
+                     ->setOfficeNum(123)
+                     ->setUserId('test_user')
+                     ->setUserNum(123)
+                     ->setEngFullMessage('This is Full Eng Message')
+                     ->setEngMessage('This is Short Eng Message')
+                     ->setShortMessage('This is Short Kor Message')
+                     ->setFullMessage('This is Full Kor Message')
+                     ->build();
+     $adminAuditLogKafkaProducer = new AdminAuditLogKafkaProducer();
+     //$logger = new Logger('my_logger');
+     //$adminAuditLogKafkaProducer->setLogger($logger);
+     $adminAuditLogKafkaProducer->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
+     $adminAuditLogKafkaProducer->sendMessage('tracking.admin.audit',$admin_audit_log);
  }
  catch (Exception $e){
      //Arguments that's not filled in the builder will be stacked here.
