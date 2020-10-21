@@ -49,25 +49,19 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     {
         try {
             $admin_audit_log = AdminAuditLog::builder('v1')
-                //Default Setting
-                //->setVersion('1.1')
-                //timezone_identifier parameter
-                //->setTimestamp("UTC")
                 ->setMenu(MenuCodeType::APPROVAL)
                 ->setLevel(1)
                 ->setAccessIp('127.0.0.1')
-                ->setHOst('1')
-                ->setUserName('김**')
                 ->setOfficeNum(123)
                 ->setUserId('test_user')
-                ->setUserNum(123)
+                ->setUserNum("")
                 ->setEngFullMessage('This is Full Eng Message')
                 ->setEngMessage('This is Short Eng Message')
                 ->setShortMessage('This is Short Kor Message')
                 ->setFullMessage('This is Full Kor Message')
                 ->build();
         }catch(Exception $e){
-            $this->assertEquals('AdminAuditLog Exception Occurred : [Not Valid Level] [host is not IPv4 format]',
+            $this->assertEquals('AdminAuditLog Exception Occurred : [Not Valid Level] [user_name is not set] [user_num is not set]',
             $e->getMessage());
         }
     }
@@ -81,14 +75,9 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
      {
          try {
              $admin_audit_log = AdminAuditLog::builder('v1')
-                 //Default Setting
-                 //->setVersion('1.1')
-                 //timezone_identifier parameter
-                 //->setTimestamp("UTC")
                  ->setMenu(MenuCodeType::APPROVAL)
                  ->setLevel(LevelType::A)
                  ->setAccessIp('127.0.0.1')
-                 ->setHost('127.0.0.1')
                  ->setUserName('김**')
                  ->setOfficeNum(123)
                  ->setUserId('test_user')

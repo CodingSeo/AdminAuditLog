@@ -88,6 +88,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
     {
         $this->setDefaultTimestamp();
         $this->setDefaultVersion();
+        $this->setDefaultHost();
     }
 
     /**
@@ -135,21 +136,22 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
         if(!LevelType::isValid($this->getLevel())) $this->error_message .= ' [Not Valid Level]';
         if(!MenuCodeType::isValid($this->getMenu())) $this->error_message .= ' [Not Valid Menu]';
 
-        if($this->getShortMessage() === null) $this->error_message .= ' [short_korean is not set]';
-        if($this->getEngMessage() === null) $this->error_message .= ' [eng_message is not set]';
-        if($this->getFullMessage() === null) $this->error_message .= ' [full_korean is not set]';
-        if($this->getEngFullMessage() === null) $this->error_message .= ' [full_eng_message is not set]';
-        if($this->getTimestamp() === null) $this->error_message .= ' [time_stamp is not set]';
-        if($this->getUserName() === null) $this->error_message .= ' [user_name is not set]';
-        if($this->getUserId() === null) $this->error_message .= ' [user_id is not set]';
-        if($this->getOffice() === null) $this->error_message .= ' [office is not set]';
-        if($this->getUser() === null) $this->error_message .= ' [user_num is not set]';
+        if(empty($this->getShortMessage())) $this->error_message .= ' [short_korean is not set]';
+        if(empty($this->getEngMessage())) $this->error_message .= ' [eng_message is not set]';
+        if(empty($this->getFullMessage())) $this->error_message .= ' [full_korean is not set]';
+        if(empty($this->getEngFullMessage())) $this->error_message .= ' [full_eng_message is not set]';
+        if(empty($this->getTimestamp())) $this->error_message .= ' [time_stamp is not set]';
+        if(empty($this->getUserName())) $this->error_message .= ' [user_name is not set]';
+        if(empty($this->getUserId())) $this->error_message .= ' [user_id is not set]';
+        if(empty($this->getOffice())) $this->error_message .= ' [office is not set]';
+        if(empty($this->getUser())) $this->error_message .= ' [user_num is not set]';
 
         $ip = $this->getAccessIp();
-        if($ip === null) $this->error_message .= ' [_access_ip is not set]';
+        if(empty($ip)) $this->error_message .= ' [_access_ip is not set]';
         elseif(!$this->validateIPv4($ip)) $this->error_message .= ' [_access_ip is not IPv4 format]';
+
         $host = $this->getHost();
-        if($host === null) $this->error_message .= ' [host is not set]';
+        if(empty($host)) $this->error_message .= ' [host is not set]';
         elseif(!$this->validateIPv4($host)) $this->error_message .= ' [host is not IPv4 format]';
     }
 
@@ -158,13 +160,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
      */
     public function setDefaultTimestamp()
     {
-        $prev_timezone = date_default_timezone_get()?date_default_timezone_get():"UTC";
-        date_default_timezone_set('UTC');
-        $timestamp = sprintf('%.6F', microtime(true));
-        if($prev_timezone !=="UTC"){
-            date_default_timezone_set($prev_timezone);
-        }
-        $this->timestamp = $timestamp;
+        $this->timestamp = sprintf('%.6F', microtime(true));
     }
 
     /**
@@ -173,6 +169,14 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
     public function setDefaultVersion()
     {
         $this->version = "1.1";
+    }
+
+    /**
+     * Setting Default Host
+     */
+    public function setDefaultHost()
+    {
+        $this->host = '127.0.0.1';
     }
 
     /**
@@ -211,37 +215,11 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
     }
 
     /**
-     * @param string $host
-     * @return $this
-     */
-    public function setHost($host)
-    {
-        $this->host = $host;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getTimestamp()
     {
         return $this->timestamp;
-    }
-
-    /**
-     * @param string $timezone_identifier
-     * @return AdminAuditLogBuilderV1
-     */
-    public function setTimestamp($timezone_identifier)
-    {
-        $prev_timezone = date_default_timezone_get()?date_default_timezone_get():"UTC";
-        date_default_timezone_set($timezone_identifier);
-        $timestamp = sprintf('%.6F', microtime(true));
-        if($prev_timezone !=="UTC"){
-            date_default_timezone_set($prev_timezone);
-        }
-        $this->timestamp = $timestamp;
-        return $this;
     }
 
     /**
