@@ -1,6 +1,6 @@
 <?php
 
-namespace Hiworks\AdminAuditLogBuilder\Enums;
+namespace Hiworks\AdminAuditLog\Enums;
 
 use MyCLabs\Enum\Enum;
 

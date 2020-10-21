@@ -1,11 +1,11 @@
 <?php
-namespace Hiworks\AdminAuditLogBuilder\Builder;
+namespace Hiworks\AdminAuditLog\Builder;
 
 
-use Hiworks\AdminAuditLogBuilder\AdminAuditLog;
-use Hiworks\AdminAuditLogBuilder\Enums\LevelType;
-use Hiworks\AdminAuditLogBuilder\Enums\MenuCodeType;
-use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
+use Hiworks\AdminAuditLog\AdminAuditLog;
+use Hiworks\AdminAuditLog\Enums\LevelType;
+use Hiworks\AdminAuditLog\Enums\MenuCodeType;
+use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException;
 
 class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 {
@@ -249,7 +249,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $short_message
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setShortMessage($short_message)
     {
@@ -267,7 +267,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $full_message
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setFullMessage($full_message)
     {
@@ -285,7 +285,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $eng_message
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setEngMessage($eng_message)
     {
@@ -303,7 +303,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $eng_full_message
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setEngFullMessage($eng_full_message)
     {
@@ -321,7 +321,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param int $office
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setOfficeNum($office)
     {
@@ -356,7 +356,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $user_id
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setUserId($user_id)
     {
@@ -374,7 +374,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $user_name
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setUserName($user_name)
     {
@@ -392,7 +392,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $menu
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setMenu($menu)
     {
@@ -410,7 +410,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param string $access_ip
-     * @return AdminAuditLogBuilderV1
+     * @return AdminAuditLogV1
      */
     public function setAccessIp($access_ip)
     {

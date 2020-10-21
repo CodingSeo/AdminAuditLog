@@ -1,10 +1,10 @@
 <?php
 
-namespace Hiworks\AdminAuditLogBuilder\Builder;
+namespace Hiworks\AdminAuditLog\Builder;
 
 
-use Hiworks\AdminAuditLogBuilder\AdminAuditLog;
-use Hiworks\AdminAuditLogBuilder\Exceptions\AdminAuditLogException;
+use Hiworks\AdminAuditLog\AdminAuditLog;
+use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException;
 
 Interface AdminAuditLogBuilderInterface
 {

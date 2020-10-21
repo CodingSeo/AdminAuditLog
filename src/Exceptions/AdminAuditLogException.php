@@ -1,6 +1,6 @@
 <?php
 
-namespace Hiworks\AdminAuditLogBuilder\Exceptions;
+namespace Hiworks\AdminAuditLog\Exceptions;
 use Exception;
 
 class AdminAuditLogException extends Exception
