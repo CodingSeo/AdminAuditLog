@@ -7,76 +7,19 @@ use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException;
 
 class AdminAuditLog
 {
-
-
-    /**
-     * @var string
-     */
     private $version;
-
-    /**
-     * @var int
-     */
     private $host;
-
-    /**
-     * @var string
-     */
     private $timestamp;
-
-    /**
-     * @var int
-     */
     private $level;
-
-    /**
-     * @var string
-     */
     private $short_message;
-
-    /**
-     * @var string
-     */
     private $full_message;
-
-    /**
-     * @var string
-     */
     private $_eng_message;
-
-    /**
-     * @var string
-     */
     private $_eng_full_message;
-
-    /**
-     * @var int
-     */
     private $_office;
-
-    /**
-     * @var int
-     */
     private $_user;
-
-    /**
-     * @var string
-     */
     private $_user_id;
-
-    /**
-     * @var string
-     */
     private $_user_name;
-
-    /**
-     * @var string
-     */
     private $_menu;
-
-    /**
-     * @var string
-     */
     private $_access_ip;
 
     /**
