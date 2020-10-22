@@ -9,79 +9,20 @@ use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogBuilderException;
 
 class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 {
-    /**
-     * @var string
-     */
     private $error_message = "";
-
-    /**
-     * @var string
-     */
     private $version;
-
-    /**
-     * @var string
-     */
     private $host;
-
-    /**
-     * @var string
-     */
     private $timestamp;
-
-    /**
-     * @var int
-     */
     private $level;
-
-    /**
-     * @var string
-     */
     private $short_message;
-
-    /**
-     * @var string
-     */
     private $full_message;
-
-    /**
-     * @var string
-     */
     private $eng_message;
-
-    /**
-     * @var string
-     */
     private $eng_full_message;
-
-    /**
-     * @var int
-     */
     private $office;
-
-    /**
-     * @var int
-     */
     private $user;
-
-    /**
-     * @var string
-     */
     private $user_id;
-
-    /**
-     * @var string
-     */
     private $user_name;
-
-    /**
-     * @var string
-     */
     private $menu;
-
-    /**
-     * @var string
-     */
     private $access_ip;
 
     public function __construct()
@@ -143,8 +84,15 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
         if(empty($this->getTimestamp())) $this->error_message .= ' [time_stamp is not set]';
         if(empty($this->getUserName())) $this->error_message .= ' [user_name is not set]';
         if(empty($this->getUserId())) $this->error_message .= ' [user_id is not set]';
-        if(empty($this->getOffice())) $this->error_message .= ' [office is not set]';
-        if(empty($this->getUser())) $this->error_message .= ' [user_num is not set]';
+
+        $office_num = $this->getOffice();
+        if(empty($office_num)) $this->error_message .= ' [office is not set]';
+        elseif (!is_numeric($office_num)) $this->error_message .= ' [office is not numeric]';
+
+
+        $user_num = $this->getUser();
+        if(empty($user_num)) $this->error_message .= ' [user is not set]';
+        elseif (!is_numeric($user_num)) $this->error_message .= ' [user is not numeric]';
 
         $ip = $this->getAccessIp();
         if(empty($ip)) $this->error_message .= ' [_access_ip is not set]';
@@ -339,6 +287,7 @@ class AdminAuditLogBuilderV1 implements AdminAuditLogBuilderInterface
 
     /**
      * @param int $user
+     * @return AdminAuditLogBuilderV1
      */
     public function setUserNum($user)
     {
