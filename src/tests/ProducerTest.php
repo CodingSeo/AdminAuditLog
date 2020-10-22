@@ -1,16 +1,12 @@
 <?php
 
-use Gabia\LaravelDto\DtoService;
-use Hiworks\AdminAuditLog\Builder\AdminAuditLogBuilderV1;
 use Hiworks\AdminAuditLog\Producer\AdminAuditLogKafkaProducer;
 use Hiworks\AdminAuditLog\AdminAuditLog;
 use Hiworks\AdminAuditLog\Enums\MenuCodeType;
 use Hiworks\AdminAuditLog\Enums\LevelType;
-use Hiworks\KafkaProducer\Producer;
-use Hiworks\KafkaProducer\ProducerConfig;
 use Monolog\Logger;
 
-class test extends \PHPUnit\Framework\TestCase
+class ProducerTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -44,14 +40,14 @@ class test extends \PHPUnit\Framework\TestCase
                 ->setAccessIp('127.0.0.1')
                 ->setOfficeNum(123)
                 ->setUserId('test_user')
-                ->setUserNum("")
+                ->setUserNum("fdffd")
                 ->setEngFullMessage('This is Full Eng Message')
                 ->setEngMessage('This is Short Eng Message')
                 ->setShortMessage('This is Short Kor Message')
                 ->setFullMessage('This is Full Kor Message')
                 ->build();
         }catch(Exception $e){
-            $this->assertEquals("Hiworks\AdminAuditLog\Exceptions\AdminAuditLogBuilderException :  [Not Valid Level] [user_name is not set] [user_num is not set]",
+            $this->assertEquals("Hiworks\AdminAuditLog\Exceptions\AdminAuditLogBuilderException :  [Not Valid Level] [user_name is not set] [user is not numeric]",
                 get_class($e) . " : " . $e->getMessage());
         }
     }
@@ -89,7 +85,72 @@ class test extends \PHPUnit\Framework\TestCase
      * @test
      * @throws Exception
      */
-    function sendKafkaMessage()
+    function sendKafkaMessage_to_wrong_server()
+    {
+        try {
+            $admin_audit_log = AdminAuditLog::builder('v1')
+                ->setMenu(MenuCodeType::APPROVAL)
+                ->setLevel(LevelType::A)
+                ->setAccessIp('127.0.0.1')
+                ->setUserName('김**')
+                ->setOfficeNum(123)
+                ->setUserId('test_user')
+                ->setUserNum(123)
+                ->setEngFullMessage('This is Full Eng Message')
+                ->setEngMessage('This is Short Eng Message')
+                ->setShortMessage('This is Short Kor Message')
+                ->setFullMessage('This is Full Kor Message')
+                ->build();
+            $admin_audit_log_producer = new AdminAuditLogKafkaProducer();
+            //$logger = new Logger('my_logger');
+            //$admin_audit_log_producer->setLogger($logger);
+            //$kafkaConfig = $admin_audit_log_producer->getKafkaConfig();
+            $admin_audit_log_producer->setBootstrapServer("THIS_IS_ERROR:10");
+            $admin_audit_log_producer->sendMessage('tracking.admin.audit',$admin_audit_log);
+        }catch(Exception $e){
+            $this->assertEquals("Kafka\Exception : Not has broker can connection `metadataBrokerList`",
+                get_class($e) . " : " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Test Kafka Sending
+     * @test
+     * @throws Exception
+     */
+    function sendKafkaMessage_to_wrong_topic()
+    {
+        try {
+            $admin_audit_log = AdminAuditLog::builder('v1')
+                ->setMenu(MenuCodeType::APPROVAL)
+                ->setLevel(LevelType::A)
+                ->setAccessIp('127.0.0.1')
+                ->setUserName('김**')
+                ->setOfficeNum(123)
+                ->setUserId('test_user')
+                ->setUserNum(123)
+                ->setEngFullMessage('This is Full Eng Message')
+                ->setEngMessage('This is Short Eng Message')
+                ->setShortMessage('This is Short Kor Message')
+                ->setFullMessage('This is Full Kor Message')
+                ->build();
+            $admin_audit_log_producer = new AdminAuditLogKafkaProducer();
+            //$logger = new Logger('my_logger');
+            //$admin_audit_log_producer->setLogger($logger);
+            //$kafkaConfig = $admin_audit_log_producer->getKafkaConfig();
+            $admin_audit_log_producer->setBootstrapServer("kafka01:9092,kafka02:9092,kafka03:9092");
+            $admin_audit_log_producer->sendMessage('THIS_IS_ERROR',$admin_audit_log);
+        }catch(Exception $e){
+            $this->assertEquals("Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException : Failed To Send Messages",
+                get_class($e) . " : " . $e->getMessage());
+        }
+    }
+    /**
+     * Test Kafka Sending
+     * @test
+     * @throws Exception
+     */
+    function sendKafkaMessage_success()
     {
         try {
             $admin_audit_log = AdminAuditLog::builder('v1')
@@ -151,7 +212,7 @@ class test extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * Not Working Well...
+     * Not Working Well (Docker PHP)
      * @test
      */
 //    function getKafkaMessages()
@@ -163,7 +224,6 @@ class test extends \PHPUnit\Framework\TestCase
 //        $config->setGroupId('test');
 //        $config->setBrokerVersion('0.10.1.0');
 //        $config->setTopics(['tracking.admin.audit']);
-//        //$config->setOffsetReset('latest');
 //        $config->setOffsetReset('earliest');
 //        $kafka_consumer = new \Kafka\Consumer();
 //        //Debugging

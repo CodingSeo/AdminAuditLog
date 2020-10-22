@@ -3,6 +3,7 @@ namespace Hiworks\AdminAuditLog\Producer;
 
 use Exception;
 use Hiworks\AdminAuditLog\AdminAuditLog;
+use Hiworks\AdminAuditLog\Exceptions\AdminAuditLogException;
 use Hiworks\KafkaProducer\Producer;
 use Hiworks\KafkaProducer\ProducerConfig;
 
@@ -21,6 +22,9 @@ class AdminAuditLogKafkaProducer implements ProducerInterface
         $this->kafka_config = new ProducerConfig();
     }
 
+    /**
+     * @return ProducerConfig
+     */
     public function &getKafkaConfig()
     {
         return $this->kafka_config;
@@ -46,7 +50,9 @@ class AdminAuditLogKafkaProducer implements ProducerInterface
         if($this->logger != null){
             $kafka_producer->setLogger($this->logger);
         }
-        $kafka_producer->send($topic,$adminAuditLog);
+        if($kafka_producer->send($topic,$adminAuditLog) == array()){
+            throw new AdminAuditLogException("Failed To Send Messages");
+        };
     }
 
     public function setLogger($logger)
