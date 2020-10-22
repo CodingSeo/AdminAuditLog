@@ -21,6 +21,9 @@ class AdminAuditLogKafkaProducer implements ProducerInterface
         $this->kafka_config = new ProducerConfig();
     }
 
+    /**
+     * @return ProducerConfig
+     */
     public function &getKafkaConfig()
     {
         return $this->kafka_config;
