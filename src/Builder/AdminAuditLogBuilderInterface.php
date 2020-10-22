@@ -25,9 +25,9 @@ Interface AdminAuditLogBuilderInterface
     public function setDefaultTimestamp();
 
     /**
+     * Setting AdminAuditLog
      * @param AdminAuditLog $adminAuditLog
      * @return AdminAuditLog
-     * Setting AdminAuditLog
      */
     public function setAdminAuditLog($adminAuditLog);
 }
