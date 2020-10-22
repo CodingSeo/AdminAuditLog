@@ -7,7 +7,7 @@
 
          <testsuites>
              <testsuite name="test">
-                <file>src/tests/test.php</file>
+                <file>src/tests/ProducerTest.php</file>
              </testsuite>
          </testsuites>
 </phpunit>
